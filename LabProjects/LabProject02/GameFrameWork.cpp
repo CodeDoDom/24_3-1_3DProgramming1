@@ -218,3 +218,25 @@ void CGameFramework::CreateDirect3DDevice()
 	if (pd3dAdapter)
 		pd3dAdapter->Release();
 }
+
+void CGameFramework::CreateCommandQueueAndList()
+{
+	D3D12_COMMAND_QUEUE_DESC d3dCommandQueueDesc;
+	::ZeroMemory(&d3dCommandQueueDesc, sizeof(D3D12_COMMAND_QUEUE_DESC));
+	d3dCommandQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
+	d3dCommandQueueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+	HRESULT hResult = m_pd3dDevice->CreateCommandQueue(&d3dCommandQueueDesc,
+		__uuidof(ID3D12CommandQueue), (void**)&m_pd3dCommandAllocator);
+	// 직접(Direct) 명령 큐를 생성한다.
+
+	hResult = m_pd3dDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT,
+		__uuidof(ID3D12CommandAllocator), (void**)&m_pd3dCommandAllocator);
+	// 직접(Direct) 명령 할당자를 생성한다.
+
+	hResult = m_pd3dDevice->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT,
+		m_pd3dCommandAllocator, NULL, __uuidof(ID3D12GraphicsCommandList), (void**)&m_pd3dCommandList);
+	// 직접(Direct) 명령 리스트를 생성한다.
+
+	hResult = m_pd3dCommandList->Close();
+	// 명령 리스트는 생성되면 열린(Open) 상태이므로 닫힌(Closed) 상태로 만든다.
+}
