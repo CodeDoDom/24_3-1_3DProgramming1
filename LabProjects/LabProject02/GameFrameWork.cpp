@@ -262,3 +262,16 @@ void CGameFramework::CreateRtvAndDsvDescriptorHeaps()
 		__uuidof(ID3D12DescriptorHeap), (void**)&m_pd3dDsvDescriptorHeap);
 	//깊이-스텐실 서술자 힙의 원소의 크기를 저장한다.
 }
+
+void CGameFramework::CreateRenderTargetViews()
+{
+	D3D12_CPU_DESCRIPTOR_HANDLE d3dRtvCPUDescriptorHandle =
+		m_pd3dRtvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
+
+	for (UINT i = 0; i < m_nSwapChainBuffers; i++)
+	{
+		m_pdxgiSwapChain->GetBuffer(i, __uuidof(ID3D12Resource), (void**)&m_ppd3RenderTargetBuffers[i]);
+		m_pd3dDevice->CreateRenderTargetView(m_ppd3RenderTargetBuffers[i], NULL, d3dRtvCPUDescriptorHandle);
+		d3dRtvCPUDescriptorHandle.ptr += m_nRtvDescriptorInCrementSize;
+	}
+}
