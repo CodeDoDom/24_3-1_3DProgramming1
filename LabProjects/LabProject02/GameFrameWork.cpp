@@ -313,3 +313,80 @@ void CGameFramework::CreateDepthStencilView()
 	m_pd3dDevice->CreateDepthStencilView(m_pd3dDepthStencilBuffer, NULL, d3dDsvCPUDescriptorHandle);
 	// ±íÀÌ-½ºÅÙ½Ç ¹öÆÛ ºä¸¦ »ý¼ºÇÑ´Ù.
 }
+
+void CGameFramework::BuildObjects()
+{
+
+}
+
+void CGameFramework::ReleaseObjects()
+{
+
+}
+
+void CGameFramework::OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
+{
+	switch (nMessageID)
+	{
+	case WM_LBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+		break;
+	case WM_LBUTTONUP:
+	case WM_RBUTTONUP:
+		break;
+	case WM_MOUSEMOVE:
+		break;
+	default:
+		break;
+	}
+}
+
+void CGameFramework::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
+{
+	switch (nMessageID)
+	{
+	case WM_KEYUP:
+		switch (wParam)
+		{
+		case VK_ESCAPE:
+			::PostQuitMessage(0);
+			break;
+		case VK_RETURN:
+			break;
+		case VK_F8:
+			break;
+		case VK_F9:
+			break;
+		default:
+			break;
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+LRESULT CALLBACK CGameFramework::OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
+{
+	switch (nMessageID)
+	{
+	case WM_SIZE:
+	{
+		m_nWndClientWidth = LOWORD(lParam);
+		m_nWndClientHeight = HIWORD(lParam);
+		break;
+	}
+	case WM_LBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+	case WM_LBUTTONUP:
+	case WM_RBUTTONUP:
+	case WM_MOUSEMOVE:
+		OnProcessingKeyboardMessage(hWnd, nMessageID, wParam, lParam);
+		break;
+	case WM_KEYDOWN:
+	case WM_KEYUP:
+		OnProcessingKeyboardMessage(hWnd, nMessageID, wParam, lParam);
+		break;
+	}
+	return(0);
+}
