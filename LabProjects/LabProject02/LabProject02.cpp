@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "LabProject02.h"
-#include "GameFrameWork.h"
+#include "CGameFramework.h"
 
 CGameFramework gGameFramework;
 
