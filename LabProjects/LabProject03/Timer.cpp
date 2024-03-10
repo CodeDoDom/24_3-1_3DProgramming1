@@ -12,7 +12,7 @@ CGameTimer::CGameTimer()
 	else
 	{
 		m_bHardwareHasPerformanceCounter = FALSE;
-		m_nLastTime = ::timeGetTime();
+		m_nLastTime = ::GetTickCount64();
 		m_fTimeScale = 0.001f;
 	}
 
@@ -35,7 +35,7 @@ void CGameTimer::Tick(float fLockFPS)
 	}
 	else
 	{
-		m_nCurrentTime = ::timeGetTime();
+		m_nCurrentTime = ::GetTickCount64();
 	}
 	
 	//마지막으로 이 함수를 호출한 이후 경과한 시간을 계산한다. 
@@ -51,7 +51,7 @@ void CGameTimer::Tick(float fLockFPS)
 			}
 			else
 			{
-				m_nCurrentTime = ::timeGetTime();
+				m_nCurrentTime = ::GetTickCount64();
 			}
 			//마지막으로 이 함수를 호출한 이후 경과한 시간을 계산한다. 
 			fTimeElapsed = (m_nCurrentTime - m_nLastTime) * m_fTimeScale;

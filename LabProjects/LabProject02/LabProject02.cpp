@@ -76,8 +76,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     return (int) msg.wParam;
 }
 
-
-
 //
 //  함수: MyRegisterClass()
 //
@@ -165,7 +163,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     default:
         return(::DefWindowProc(hWnd, message, wParam, lParam));
-   }
+    }
     return 0;
 }
 
