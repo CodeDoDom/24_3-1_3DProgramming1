@@ -121,6 +121,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
     hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
+    //ghAppInstance = hInstance; // 따라하기(05) 내용인데 뭔지 모르겠음
 
     RECT rc = { 0, 0, FRAME_BUFFER_WIDTH, FRAME_BUFFER_HEIGHT };
     DWORD dwStyle = WS_OVERLAPPED | WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_BORDER;
@@ -135,6 +136,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
     ::ShowWindow(hMainWnd, nCmdShow);
     ::UpdateWindow(hMainWnd);
+
+#ifdef _WITH_SWAPCHAIN_FULLSCREEN_STATE
+    gGameFramework.ChangeSwapChainState();
+#endif
 
     return(TRUE);
 }
