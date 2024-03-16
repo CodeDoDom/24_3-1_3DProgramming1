@@ -28,6 +28,8 @@ CGameFramework::CGameFramework()
 
 	m_nWndClientWidth = FRAME_BUFFER_WIDTH;
 	m_nWndClientHeight = FRAME_BUFFER_HEIGHT;
+
+	_tcscpy_s(m_pszFrameRate, _T("LabProject ("));
 }
 
 CGameFramework::~CGameFramework()
@@ -419,6 +421,9 @@ void CGameFramework::WaitForGpuComplete()
 
 void CGameFramework::FrameAdvance()
 {
+	// 타이머의 시간이 갱신되도록 하고 프레임 레이트를 계산한다.
+	m_GameTimer.Tick(0.0f);
+
 	ProcessInput();
 	AnimateObjects();
 
@@ -494,4 +499,15 @@ void CGameFramework::FrameAdvance()
 	덱스가 바뀔 것이다.*/
 
 	m_nSwapChainBufferIndex = m_pdxgiSwapChain->GetCurrentBackBufferIndex();
+
+	m_pdxgiSwapChain->Present(0, 0);
+
+	/*현재의 프레임 레이트를 문자열로 가져와서 주 윈도우의 타이틀로 출력한다. 
+	m_pszBuffer 문자열이 "LabProject ("로 초기화되었으므로, (m_pszFrameRate+12)에서부터
+	프레임 레이트를 문자열로 출력하여 " FPS)" 문자열과 합친다.
+	::_itow_s(m_nCurrentFrameRate, (m_pszFrameRate+12), 37, 10);
+	::wcscat_s((m_pszFrameRate+12), 37, _T(" FPS)"));
+	*/
+	m_GameTimer.GetFrameRate(m_pszFrameRate + 12, 37);
+	::SetWindowText(m_hWnd, m_pszFrameRate);
 }
