@@ -525,14 +525,10 @@ void CGameFramework::ChangeSwapChainState()
 	dxgiTargetParameters.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	m_pdxgiSwapChain->ResizeTarget(&dxgiTargetParameters);
 
+	// 240416: m_ppd3dSwapChainBackBuffers라는 변수를 m_ppd3dRenderTargetBuffers로 수정(eclass 참고)
 	for (int i = 0; i < m_nSwapChainBuffers; i++)
 		if (m_ppd3dRenderTargetBuffers[i])
 			m_ppd3dRenderTargetBuffers[i]->Release();
-
-	// 따라하기(05) 내용. m_ppd3dSwapChainBackBuffers라는 변수는 없음...
-	//for (int i = 0; i < m_nSwapChainBuffers; i++)
-	//	if (m_ppd3dSwapChainBackBuffers[i])
-	//		m_ppd3dSwapChainBackBuffers[i]->Release();
 
 	DXGI_SWAP_CHAIN_DESC dxgiSwapChainDesc;
 	m_pdxgiSwapChain->GetDesc(&dxgiSwapChainDesc);
